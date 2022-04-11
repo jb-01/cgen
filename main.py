@@ -4,7 +4,7 @@ from keras.models import Sequential
 from keras.layers import Conv2D, Dense, MaxPool2D, Flatten, Dropout
 
 
-# simple TF implementation of VGG16
+# simple TF implementation of VGG19
 
 model = Sequential()
 
@@ -21,15 +21,18 @@ model.add(MaxPool2D(pool_size=(2,2),strides=(2,2)))
 model.add(Conv2D(filters=256, kernel_size=(3,3), padding="same", activation="relu"))
 model.add(Conv2D(filters=256, kernel_size=(3,3), padding="same", activation="relu"))
 model.add(Conv2D(filters=256, kernel_size=(3,3), padding="same", activation="relu"))
+model.add(Conv2D(filters=256, kernel_size=(3,3), padding="same", activation="relu"))
 model.add(MaxPool2D(pool_size=(2,2),strides=(2,2)))
 
 
 model.add(Conv2D(filters=512, kernel_size=(3,3), padding="same", activation="relu"))
 model.add(Conv2D(filters=512, kernel_size=(3,3), padding="same", activation="relu"))
 model.add(Conv2D(filters=512, kernel_size=(3,3), padding="same", activation="relu"))
+model.add(Conv2D(filters=512, kernel_size=(3,3), padding="same", activation="relu"))
 model.add(MaxPool2D(pool_size=(2,2),strides=(2,2)))
 
 
+model.add(Conv2D(filters=512, kernel_size=(3,3), padding="same", activation="relu"))
 model.add(Conv2D(filters=512, kernel_size=(3,3), padding="same", activation="relu"))
 model.add(Conv2D(filters=512, kernel_size=(3,3), padding="same", activation="relu"))
 model.add(Conv2D(filters=512, kernel_size=(3,3), padding="same", activation="relu"))
