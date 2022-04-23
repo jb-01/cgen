@@ -3,7 +3,6 @@ from keras.layers import Input, Dense, BatchNormalization, Conv2D, MaxPooling2D,
 from keras.layers import add, Flatten
 import numpy as np
 
-
 # tensorflow implementation of ResNet34
 
 seed = 7
