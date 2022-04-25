@@ -1,7 +1,7 @@
 import VGG19
 from keras import layers
 from keras.layers import Input, Flatten, Dropout, Activation
-from keras.layers.advanced_activations import LeakyReLU, PReLU
+
 # print(vocab_size)
 ## image feature
 
