@@ -1,6 +1,6 @@
 from keras.models import Model
 from keras.layers import Input, Dense, Dropout, LSTM, Embedding, add
-
+from VGG19 import features
 
 # define the captioning model
 def define_model(vocab_size, max_length):
