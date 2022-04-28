@@ -1,28 +1,25 @@
-import VGG19
-from keras import layers
-from keras.layers import Input, Flatten, Dropout, Activation
+from keras.models import Model
+from keras.layers import Input, Dense, Dropout, LSTM, Embedding, add
 
-# print(vocab_size)
-## image feature
 
-dim_embedding = 64
-
-input_image = layers.Input(shape=(Ximage_train.shape[1],))
-fimage = layers.Dense(256,activation='relu',name="ImageFeature")(input_image)
-## sequence model
-input_txt = layers.Input(shape=(maxlen,))
-ftxt = layers.Embedding(vocab_size,dim_embedding, mask_zero=True)(input_txt)
-ftxt = layers.LSTM(256,name="CaptionFeature",return_sequences=True)(ftxt)
-#,return_sequences=True
-#,activation='relu'
-se2 = Dropout(0.04)(ftxt)
-ftxt = layers.LSTM(256,name="CaptionFeature2")(se2)
-## combined model for decoder
-decoder = layers.add([ftxt,fimage])
-decoder = layers.Dense(256,activation='relu')(decoder)
-output = layers.Dense(vocab_size,activation='softmax')(decoder)
-model = models.Model(inputs=[input_image, input_txt],outputs=output)
-
-model.compile(loss='categorical_crossentropy', optimizer='adam')
-
-print(model.summary())
+# define the captioning model
+def define_model(vocab_size, max_length):
+    # features from the CNN model compressed from 2048 to 256 nodes
+    inputs1 = Input(shape=(2048,))
+    fe1 = Dropout(0.5)(inputs1)
+    fe2 = Dense(256, activation='relu')(fe1)
+    # LSTM sequence model
+    inputs2 = Input(shape=(max_length,))
+    se1 = Embedding(vocab_size, 256, mask_zero=True)(inputs2)
+    se2 = Dropout(0.5)(se1)
+    se3 = LSTM(256)(se2)
+    # Merging both models
+    decoder1 = add([fe2, se3])
+    decoder2 = Dense(256, activation='relu')(decoder1)
+    outputs = Dense(vocab_size, activation='softmax')(decoder2)
+    # merge it [image, seq] [word]
+    model = Model(inputs=[inputs1, inputs2], outputs=outputs)
+    model.compile(loss='categorical_crossentropy', optimizer='adam')
+    # summarize model
+    print(model.summary())
+    return model
